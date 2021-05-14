@@ -3,7 +3,7 @@ name: Hexo CI
 on:
   push:
     branches:
-      - hexo
+      - Hexo
 jobs:
   build:
     runs-on: ubuntu-latest
