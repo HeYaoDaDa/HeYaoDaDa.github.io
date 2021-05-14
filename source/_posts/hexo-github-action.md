@@ -2,7 +2,7 @@
 layout: 配置Hexo在github page，使用github action自动构建
 title: hexo github
 date: 2021-05-14 16:52:52
-tags:hexo github action CI
+tags: hexo github action CI
 ---
 
 ### 准备
@@ -44,13 +44,14 @@ jobs:
       - name: Use Node.js ${{ matrix.node_version }}
         uses: actions/setup-node@v1
         with:
-          node_version: ${{ matrix.node_version }}
+          node_version: '12'
       - name: Setup hexo
         env:
           ACTION_DEPLOY_KEY: ${{ secrets.HEXO_DEPLOY_KEY }}
         run: |
           mkdir -p ~/.ssh/
           echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
+		  chmod 700 ~/.ssh
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config --global user.email "heyaodada@qq.com"
@@ -60,7 +61,7 @@ jobs:
       - name: Hexo deploy
         run: |
           hexo clean
-          hexo d
+          hexo deploy
 ```
 
 user.name和email改成你自己的。还有secrets的那个也改成你当时设置的名字，改好后，每次有push到hexo分钟，github action就会自动构建
