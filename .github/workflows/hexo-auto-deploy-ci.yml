@@ -3,7 +3,7 @@ name: Hexo CI
 on:
   push:
     branches:
-      - hexo
+      - Hexo
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,7 +12,7 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v1
         with:
-          ref: hexo
+          ref: Hexo
       - name: Use Node.js ${{ matrix.node_version }}
         uses: actions/setup-node@v1
         with:
