@@ -1,8 +1,12 @@
 ---
-layout: 配置Hexo在github page，使用github action自动构建
-title: hexo github
+title: 配置Hexo在github page，使用github action自动构建
 date: 2021-05-14 16:52:52
-tags: hexo github action CI
+tags: 
+  - hexo 
+  - github 
+  - CI
+categories:
+  - 其他
 ---
 
 ### 准备
