@@ -9,13 +9,15 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         with:
           ref: hexo
+          
       - name: Use Node.js ${{ matrix.node_version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node_version }}
+          
       - name: Setup hexo
         env:
           ACTION_DEPLOY_KEY: ${{ secrets.HEXO_DEPLOY_KEY }}
@@ -29,6 +31,7 @@ jobs:
           git config --global user.name "Wilson"
           npm install hexo-cli -g
           npm install
+          
       - name: Hexo deploy
         run: |
           hexo clean
