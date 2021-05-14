@@ -22,7 +22,7 @@ ssh-keygen -f github-deploy-key
 ```
 
 来生成密钥。
-公钥复制到仓库的Deploy key，私钥复制到Secret，要记住这里设置的名字，比如`HEXO_DEPLOY_KEY `
+公钥复制到仓库的Deploy key（记得勾选allow write access），私钥复制到Secret，要记住这里设置的名字，比如`HEXO_DEPLOY_KEY `
 
 ### 配置Action
 
