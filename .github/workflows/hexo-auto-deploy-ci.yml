@@ -1,5 +1,5 @@
 
-name: Hexo CI
+name: hexo auto CI
 on:
   push:
     branches:
