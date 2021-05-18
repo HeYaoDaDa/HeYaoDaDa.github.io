@@ -1,6 +1,6 @@
 ---
 title: spring in action 读书笔记 第二章 装配Bean
-date: 2021-05-16 17:24:30
+date: 2021-05-17 19:54:30
 tags:
   - java
   - spring
