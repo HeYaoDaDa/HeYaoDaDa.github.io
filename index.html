@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>HeYaoDaDa的blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="在干啥，就记啥">
+<meta property="og:type" content="website">
+<meta property="og:title" content="HeYaoDaDa的blog">
+<meta property="og:url" content="https://heyaodada.github.io/index.html">
+<meta property="og:site_name" content="HeYaoDaDa的blog">
+<meta property="og:description" content="在干啥，就记啥">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="HeYaoDaDa">
+<meta property="article:tag" content="blog">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="HeYaoDaDa的blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">HeYaoDaDa的blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">好记性不如烂笔头</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://heyaodada.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-spring-in-action-read-note-4" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/19/spring-in-action-read-note-4/" class="article-date">
+  <time class="dt-published" datetime="2021-05-19T13:28:03.000Z" itemprop="datePublished">2021-05-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>►<a class="article-category-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/java/">java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/19/spring-in-action-read-note-4/">spring in action 读书笔记 第五章 构建Spring Web应用程序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>这章就是简单的介绍一下最基础的mvc程序怎么搞</p>
+<h3 id="搭建-spring-mvc"><a href="#搭建-spring-mvc" class="headerlink" title="搭建 spring mvc"></a>搭建 spring mvc</h3><p>首先配置DispatcherServlet，这是个前端控制器。传统法子是配置在web.xml文件里，但是spring3.1后，直接用java配置也行。<br><img src="/images/init-dispatcher-servlet.png" alt="配置DispatcherServlet" title="配置DispatcherServlet"><br>容器会在类路径中自动找实现了javax. servlet. ServletContainerinitialize接口的类，拿它来配置servlet容器<br>spring搞了实现，叫SpringServletContainerInitializer，这个类会反过来找实现了WebApplicationInitializer的类，把配置交给他们。<br>spring3.2搞了个后者的实现，就是AbstractAnnotationConfigDispatcherServletInitializer。<br>getServletMappings会映射到DispatcherServlet。<br>getServletConfigClasses会返回带@Configuration的类来定义DispatcherServlet应用上下文中的bean<br>getRootConfigClasses会返回带@Configuration的类来配置ContextLoaderListener（加载应用中其他bean，通常是驱动应用后端的中间层和数据层组件）创建的应用上下文的bean</p>
+<h2 id="启用spring-mvc"><a href="#启用spring-mvc" class="headerlink" title="启用spring mvc"></a>启用spring mvc</h2><p>我们在配置类里搞个@EnableWebMvc注解。<br><img src="/images/web-configuration.png" alt="webConfiguration的简单配置" title="webConfiguration的简单配置"><br>底下那个方法是未来让静态资源转发到spring的默认servlet上，而不是DispatcherServlet直接处理</p>
+<h2 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h2><p>控制器只是方法上加个@RequestMapping注解，类上加个@Controller的类。<br>@RequestMapping，定义value来指明处理啥东西，method来指明处理什么方法get，post这种。<br>哦，@Controller是基于@Component的，所以你就不用加这个了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://heyaodada.github.io/2021/05/19/spring-in-action-read-note-4/" data-id="ckovj1sc80006d1nfbyjk5lti" data-title="spring in action 读书笔记 第五章 构建Spring Web应用程序" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-in-action/" rel="tag">spring in action</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-spring-in-action-read-note-3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/18/spring-in-action-read-note-3/" class="article-date">
+  <time class="dt-published" datetime="2021-05-18T11:37:56.000Z" itemprop="datePublished">2021-05-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>►<a class="article-category-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/java/">java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/18/spring-in-action-read-note-3/">spring in action 读书笔记 第四章 面向切面的Spring</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="AOP术语"><a href="#AOP术语" class="headerlink" title="AOP术语"></a>AOP术语</h3><p>DI：对象之间的解耦；AOP：横切关注点与它们所影响的对象之间的解耦<br>通知（advice），切点（pointcut），连接点（join point）<br>通知：包含了需要用于多个应用对象的横切行为，定义了切面是什么时候使用，描述切面的工作，什么时候执行，在哪执行<br>五种通知</p>
+<ul>
+<li>前置通知</li>
+<li>后置通知</li>
+<li>返回通知</li>
+<li>异常通知</li>
+<li>环绕通知<br>连接点<br>连接点程序执行过程中能够应用通知的所有点，在程序中应用通知的时机就是连接点，连接点是在应用执行过程中能够插入切面的一个点<br>切点<br>切点定义了通知被应用的具体位置，切点定义了“何处”，会匹配通知要织入的一个或多个连接点。<br>切面<br>切面是通知和切点的集合<br>引入<br>引入让我们向现有的类中添加新方法和属性<br>织入<br>把切面应用到目标对象并创建新的代理对象的过程。<br>可以在：编译期，类加载期，运行期进行<h3 id="spring提供了4种AOP支持"><a href="#spring提供了4种AOP支持" class="headerlink" title="spring提供了4种AOP支持"></a>spring提供了4种AOP支持</h3></li>
+<li>基于代理的经典spring AOP</li>
+<li>纯POJO切面</li>
+<li>@AspectJ注解驱动的切面</li>
+<li>注入式AspectJ切面（适用于Spring各版本）<br>前三是Spring AOP实现的变种，Spring AOP构建在动态代理基础上，所以Spring对AOP的支持只有方法拦截<br>spring的通知是用java编写的，或在spring配置文件里用xml来编写<h3 id="编写切点"><a href="#编写切点" class="headerlink" title="编写切点"></a>编写切点</h3><img src="/images/spring-aspectJ-list.png" alt="aspectJ指示器" title="aspectJ指示器"><br>只有execution是实际执行匹配的，其他都是限制匹配<br><img src="/images/execution-format.png" alt="切点定义格式" title="切点定义格式"><br>这个表达式还支持&amp;&amp; || ！。<h3 id="定义切面"><a href="#定义切面" class="headerlink" title="定义切面"></a>定义切面</h3>反正就是是搞个bean，打上@Aspect注解，和在方法上声明通知，配置类里要记得启用aspectJ代理，xml里用aop命名空间。<br>切面方法里可以搞参数的，但是要在切点里设置好args。<h3 id="引入新功能"><a href="#引入新功能" class="headerlink" title="引入新功能"></a>引入新功能</h3>用@DeclareParents注解就完事，value写哪个bean要引入接口，defaultImpl写引入功能的实现类，@DeclareParents注解的变量类型就是要引入的接口。<h3 id="注入aspectJ切面"><a href="#注入aspectJ切面" class="headerlink" title="注入aspectJ切面"></a>注入aspectJ切面</h3>我们要用spring为aspectJ依赖注入，但要记得在bean标签里特别设置factory-method属性为aspectOf，因为AspectJ切面由AspectJ在运行期间创建，所以只能用aspectJ给出的静态方法。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://heyaodada.github.io/2021/05/18/spring-in-action-read-note-3/" data-id="ckovj1sc70005d1nfd82m98ax" data-title="spring in action 读书笔记 第四章 面向切面的Spring" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-in-action/" rel="tag">spring in action</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-spring-in-action-read-note-2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/18/spring-in-action-read-note-2/" class="article-date">
+  <time class="dt-published" datetime="2021-05-18T07:17:31.000Z" itemprop="datePublished">2021-05-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>►<a class="article-category-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/java/">java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/18/spring-in-action-read-note-2/">spring in action 读书笔记 第三章 高级装配</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>这章的内容就是一些高级的bean技术。</p>
+<ul>
+<li>profile</li>
+<li>条件化的bean声明（@Conditional profile也改成了使用这个技术</li>
+<li>消除自动装配的歧义</li>
+<li>bean的作用域</li>
+<li>spring表达语言<h3 id="profile"><a href="#profile" class="headerlink" title="profile"></a>profile</h3>profile主要用来设置不同的环境，需要什么bean，java中用@Profile（类和方法级别），xml中在&lt;beans&gt;设置profile属性，&lt;beans&gt;可以嵌套定义，实现多个profile bean放一个xml文件里。<br>激活profile，需要设置spring.profile.active和spring.profile.default（会优先使用active），有好几种法子：</li>
+<li>DispatcherServlet的初始化参数（在web应用的web.xml里设置</li>
+<li>web应用的上下文参数</li>
+<li>JNDI条目</li>
+<li>环境变量</li>
+<li>JVM的系统属性</li>
+<li>在集成测试类上，用@ActiveProfiles注解设置<h3 id="条件化的bean声明（-Conditional）"><a href="#条件化的bean声明（-Conditional）" class="headerlink" title="条件化的bean声明（@Conditional）"></a>条件化的bean声明（@Conditional）</h3>使用@Conditional，参数设置一个实现了Condition接口的类，这接口里覆写matches方法，方法里有两个参数，ConditionContext和AnnotatedTypeMetadata<h3 id="消除自动装配的歧义"><a href="#消除自动装配的歧义" class="headerlink" title="消除自动装配的歧义"></a>消除自动装配的歧义</h3>对bean或component使用@Primary标记首选，xml设置bean的primary属性<br>使用限定符，@Qualifier（bean上，和要装配的地方都要用这个标签），因为java不能在同一个地方放两个同类型的注解（后面还补充了，java8其实就可以，但是需要@Repeatable，当时spring没有，不知道现在能不能），所以，可能还要自己定义自定义注解<h3 id="bean的作用域"><a href="#bean的作用域" class="headerlink" title="bean的作用域"></a>bean的作用域</h3></li>
+<li>单例（默认）</li>
+<li>原型</li>
+<li>会话</li>
+<li>请求<br>设置作用域使用@Scope，xml的话，设置bean的scope属性<br>使用会话和请求作用域的时候，还得设置 proxymode，设置了这个，用来解决这些bean注入到单例bean的问题。<br>xml要设置proxyMode得用spring aop空间的一个新元素scoped-proxy<h3 id="spring表达式语言前"><a href="#spring表达式语言前" class="headerlink" title="spring表达式语言前"></a>spring表达式语言前</h3>通过外部文件来初始化属性，最简单是用spring的environment，使用env.getProperty方法<br>这方法有4个重载，2个是返回string，2个是返回指定类型。<br>然后还有属性占位符的法子，主要用在xml里？“${….}”的格式，使用自动装配的话，需要用@value注解在变量上，为了用占位符还得搞个PropertyPlaceholderConfigurer或PropertySourcesPlaceholderConfigurer（推荐用这个）。<br>xml要用context空间的&lt;context:propertyplaceholder&gt;元素，<h3 id="spring表达语言"><a href="#spring表达语言" class="headerlink" title="spring表达语言"></a>spring表达语言</h3></li>
+<li>使用bean的id来引用bean</li>
+<li>调用方法和访问对象的属性</li>
+<li>对值进行运算</li>
+<li>正则</li>
+<li>集合<br>这个个表达式得放到#{…}里，要访问类作用域的方法和常量的话，得用T()，返回的结果是一个class对象。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://heyaodada.github.io/2021/05/18/spring-in-action-read-note-2/" data-id="ckovj1sc50004d1nf9en0dwkb" data-title="spring in action 读书笔记 第三章 高级装配" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-in-action/" rel="tag">spring in action</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-spring-in-action-read-note-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/17/spring-in-action-read-note-1/" class="article-date">
+  <time class="dt-published" datetime="2021-05-17T11:54:30.000Z" itemprop="datePublished">2021-05-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>►<a class="article-category-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/java/">java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/17/spring-in-action-read-note-1/">spring in action 读书笔记 第二章 装配Bean</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>这章的主要内容就是三种bean装配（DI）的方法。<br>推荐方法：自动装配 &gt; java显式配置 &gt; xml显式配置</p>
+<h3 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h3><p>自动装配默认是关的。自动装配之前需要组件扫描，要打开的话，还是需要先搞一个显式配置的文件（java和xml都行），使用ComponentScan。默认会扫描配置文件所在的包，你也可以自己指定扫描包列表和类列表<br>然后需要组件扫描的bean在定义的时候，在类上面加个注解@Component。要给bean改名直接给@Component一个字符串参数就完事。<br>给需要自动装配的方法（构造方法，set方法啥的）上面加一个@Autowired注解。<br>注：@Componen，@Autowired和 @Named，@Inject大部分场景一样（什么时候不一样我也不知道）</p>
+<h3 id="java装配"><a href="#java装配" class="headerlink" title="java装配"></a>java装配</h3><p>在配置类里，写名字和bean类名一样的公开方法，上面要一个@Bean注解，要装配的话，可以直接调用需要装配进来的bean的公开方法（只能在一个配置类里），比较推荐的法子，是写一个形参，让容器自己找对应的bean。</p>
+<h3 id="xml装配"><a href="#xml装配" class="headerlink" title="xml装配"></a>xml装配</h3><p>这个东西最烦了，好长，定义bean就是&lt;bean&gt;标签，注入就是用&lt;constructor-arg&gt;和&lt;property&gt;两个标签，或者有短的&lt;c&gt;和&lt;p&gt;，不过搞之前需要先在前面写上他们的命名空间，而且要弄数组啥的容器类，还得用&lt;util&gt;命名空间。</p>
+<h3 id="混用"><a href="#混用" class="headerlink" title="混用"></a>混用</h3><p>java中用@Import可以引用其他java配置，用@ImportResource可以引用xml配置。xml就是&lt;import&gt;导入xml配置，然后得用&lt;bean&gt;来导入java配置，也是离谱。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://heyaodada.github.io/2021/05/17/spring-in-action-read-note-1/" data-id="ckovj1sc20001d1nf5uixcubt" data-title="spring in action 读书笔记 第二章 装配Bean" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-in-action/" rel="tag">spring in action</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-spring-in-action-read-note" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/16/spring-in-action-read-note/" class="article-date">
+  <time class="dt-published" datetime="2021-05-16T09:24:30.000Z" itemprop="datePublished">2021-05-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>►<a class="article-category-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/java/">java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/16/spring-in-action-read-note/">spring in action 读书笔记 第一章</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>今天开始读《spring in action》，随便记录一点东西。<br>spring是一个开源框架，用来简化java开发。<br>通过pojo（？bean），依赖注入，切面，模版等技术。<br>依赖注入可以通过xml或java代码来配置，不同的配置方法需要不同的应用上下文加载<br>应用上下文负责对象的创建和组装，<br>切面允许你把遍布应用各处的功能分离出来（日志，安全这类模块<br>注册切面前，也需要先把它注册成bean，切面要配合切点使用，大概就是切面插入到切点中调用。<br>模版用来消除样板式代码，感觉是spring框架封装好了一些特别繁琐的调用。<br>然后介绍了一下spring容器，容器用来负责bean的整个生命周期。应用上下文也是容器的一种，还有一种是bean工厂，但是说太基础，不讲。<br>最后介绍了一下bean的生命周期，bean可以实现一些接口来覆写一些生命周期函数。<br>还介绍了一下spring都有些什么模块和新功能。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://heyaodada.github.io/2021/05/16/spring-in-action-read-note/" data-id="ckovj1sca0009d1nfgxziau0k" data-title="spring in action 读书笔记 第一章" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-in-action/" rel="tag">spring in action</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-tinking-about-game-framework" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/16/tinking-about-game-framework/" class="article-date">
+  <time class="dt-published" datetime="2021-05-16T00:18:20.000Z" itemprop="datePublished">2021-05-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%B8%B8%E6%88%8F/">游戏</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/16/tinking-about-game-framework/">对游戏框架的思考</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>玩了大半年的cdda，对游戏里半残废的z轴，感到很难受，而且一个疯狂追求真实性的游戏，居然在很多基础方面（视野，地形，水）方面完全没有真实性。<br>不禁让人感到非常失望，就想自己搞个minecraft式体素世界，dwarf fortress的世界生成，cdda那追求真实性游戏机制的游戏，但是开头就遇到无从下手的地方。<br>不知道该怎么组织功能和实体。</p>
+<h3 id="目前的法子"><a href="#目前的法子" class="headerlink" title="目前的法子"></a>目前的法子</h3><p>本来想用cdda的flag一样的法子，但是没看过cdda的源码，一看c++就不想看，反正也没学过。想起来当年也写过饥荒的mod，感觉用饥荒的预设，组件模式也许<br>不错，于是现在就大概定下来了，预设的信息模仿cdda用json写，然后所以的功能都用组件实现（包括渲染，碰撞）</p>
+<h3 id="过了几天"><a href="#过了几天" class="headerlink" title="过了几天"></a>过了几天</h3><p>md，想了一下，这不是ecs模式吗？看来我学unity的ecs学傻了，godot虽然有个插件支持ecs，但是我不想用了，又去了解了一下bevy，啧啧，太tm新了。<br>也不能用，所以这段时间打算好好重新读读godot的文档，理解一下node模式下的开发流</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://heyaodada.github.io/2021/05/16/tinking-about-game-framework/" data-id="ckovj1scr001rd1nf49kp0o1a" data-title="对游戏框架的思考" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cdda/" rel="tag">cdda</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/don-t-starve/" rel="tag">don't starve</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dwarf-fortress/" rel="tag">dwarf fortress</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/framework/" rel="tag">framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/minecraft/" rel="tag">minecraft</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/note/" rel="tag">note</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hexo-github-action" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/14/hexo-github-action/" class="article-date">
+  <time class="dt-published" datetime="2021-05-14T08:52:52.000Z" itemprop="datePublished">2021-05-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/14/hexo-github-action/">配置Hexo在github page，使用github action自动构建</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>你得先配置好hexo，这些内容我懒得打字，自行百度，要达到的效果是，输入 hexo d的时候，可以构建项目到github page。</p>
+<h3 id="配置deploy-密钥"><a href="#配置deploy-密钥" class="headerlink" title="配置deploy 密钥"></a>配置deploy 密钥</h3><p>输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -f github-deploy-key</span><br></pre></td></tr></table></figure>
+
+<p>来生成密钥。<br>公钥复制到仓库的Deploy key（记得勾选allow write access），私钥复制到Secret，要记住这里设置的名字，比如<code>HEXO_DEPLOY_KEY </code></p>
+<h3 id="配置Action"><a href="#配置Action" class="headerlink" title="配置Action"></a>配置Action</h3><p>我的法子，是一个仓库里，两个分支，master放deploy后的结果，hexo里放源代码。<br>在源代码的.github/workflows/里新建一个 随便名字.yml<br>里面写上</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">hexo</span> <span class="string">auto</span> <span class="string">CI</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hexo</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">source</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">ref:</span> <span class="string">hexo</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Use</span> <span class="string">Node.js</span> <span class="string">$&#123;&#123;</span> <span class="string">matrix.node_version</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node_version:</span> <span class="string">&#x27;12&#x27;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Setup</span> <span class="string">hexo</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">          <span class="attr">ACTION_DEPLOY_KEY:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.HEXO_DEPLOY_KEY</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          mkdir -p ~/.ssh/</span></span><br><span class="line"><span class="string">          echo &quot;$ACTION_DEPLOY_KEY&quot; &gt; ~/.ssh/id_rsa</span></span><br><span class="line"><span class="string"></span>		  <span class="string">chmod</span> <span class="number">700</span> <span class="string">~/.ssh</span></span><br><span class="line">          <span class="string">chmod</span> <span class="number">600</span> <span class="string">~/.ssh/id_rsa</span></span><br><span class="line">          <span class="string">ssh-keyscan</span> <span class="string">github.com</span> <span class="string">&gt;&gt;</span> <span class="string">~/.ssh/known_hosts</span></span><br><span class="line">          <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.email</span> <span class="string">&quot;heyaodada@qq.com&quot;</span></span><br><span class="line">          <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.name</span> <span class="string">&quot;Wilson&quot;</span></span><br><span class="line">          <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-cli</span> <span class="string">-g</span></span><br><span class="line">          <span class="string">npm</span> <span class="string">install</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Hexo</span> <span class="string">deploy</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          hexo clean</span></span><br><span class="line"><span class="string">          hexo deploy</span></span><br></pre></td></tr></table></figure>
+
+<p>user.name和email改成你自己的。还有secrets的那个也改成你当时设置的名字，改好后，每次有push到hexo分钟，github action就会自动构建</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://heyaodada.github.io/2021/05/14/hexo-github-action/" data-id="ckovj1sbx0000d1nf84nq3hup" data-title="配置Hexo在github page，使用github action自动构建" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI/" rel="tag">CI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%B8%E6%88%8F/">游戏</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/java/">java</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI/" rel="tag">CI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cdda/" rel="tag">cdda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/don-t-starve/" rel="tag">don't starve</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dwarf-fortress/" rel="tag">dwarf fortress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/framework/" rel="tag">framework</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/game/" rel="tag">game</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/minecraft/" rel="tag">minecraft</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-in-action/" rel="tag">spring in action</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CI/" style="font-size: 10px;">CI</a> <a href="/tags/cdda/" style="font-size: 10px;">cdda</a> <a href="/tags/don-t-starve/" style="font-size: 10px;">don't starve</a> <a href="/tags/dwarf-fortress/" style="font-size: 10px;">dwarf fortress</a> <a href="/tags/framework/" style="font-size: 10px;">framework</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/minecraft/" style="font-size: 10px;">minecraft</a> <a href="/tags/note/" style="font-size: 10px;">note</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/spring-in-action/" style="font-size: 20px;">spring in action</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/05/19/spring-in-action-read-note-4/">spring in action 读书笔记 第五章 构建Spring Web应用程序</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/18/spring-in-action-read-note-3/">spring in action 读书笔记 第四章 面向切面的Spring</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/18/spring-in-action-read-note-2/">spring in action 读书笔记 第三章 高级装配</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/17/spring-in-action-read-note-1/">spring in action 读书笔记 第二章 装配Bean</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/16/spring-in-action-read-note/">spring in action 读书笔记 第一章</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 HeYaoDaDa<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
